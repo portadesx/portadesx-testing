@@ -48,11 +48,11 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|/usr/bin/vivaldi --new-window %U|/usr/bin/vivaldi --new-window --no-sandbox %U|' /usr/share/applications/vivaldi-stable.desktop"
     - name: Unmount and repacking rootfs
       run: |
-        sudo umount $GITHUB_WORKSPACE/portadesx-2404/proc
-        sudo umount $GITHUB_WORKSPACE/portadesx-2404/sys
-        sudo umount $GITHUB_WORKSPACE/portadesx-2404/run
-        sudo umount $GITHUB_WORKSPACE/portadesx-2404/dev
-        sudo umount $GITHUB_WORKSPACE/portadesx-2404/dev/pts
+        sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/proc
+        sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/sys
+        sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/run
+        sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/dev
+        sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/dev/pts
         sudo tar -cJf $GITHUB_WORKSPACE/release/portadesk-2404.tar.xz $GITHUB_WORKSPACE/portadesx-2404
     - name: Release it!
       uses: softprops/action-gh-release@v2
