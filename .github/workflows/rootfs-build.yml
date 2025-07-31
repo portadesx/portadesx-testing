@@ -24,13 +24,35 @@ jobs:
       run: |
         sudo mount --bind /proc $GITHUB_WORKSPACE/portadesx-2404/proc
         sudo mount --bind /sys $GITHUB_WORKSPACE/portadesx-2404/sys
+        sudo mount --bind /run $GITHUB_WORKSPACE/portadesx-2404/run
         sudo mount --bind /dev $GITHUB_WORKSPACE/portadesx-2404/dev
         sudo mount --bind /dev/pts $GITHUB_WORKSPACE/portadesx-2404/dev/pts
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y"
     - name: Install XFCE desktop and basic utility
       run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt install xfce4 xfce4-terminal tigervnc-standalone-server dbus-x11 pulseaudio nano wget curl sudo adduser -y && apt clean"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser -y && apt clean"
+    - name: Adding user and password
+      run: |
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo adduser --disabled-password --gecos "portadesx" && echo 'portadesx:123' | chpasswd && echo 'portadesx ALL=(ALL:ALL) ALL' >> /etc/sudoers.d/user"
+    - name: Remove snap apt override
+      run: |
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo rm /etc/apt/preferences.d/*"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://github.com/arfshl/no-snap-on-apt/raw/main/Noble/arm64/setup.sh && sh setup.sh && rm setup.sh"
+    - name: Install user apps
+      run: | 
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install firefox vlc thunderbird evince file-roller ristretto gnome-clocks libheif1 webp-pixbuf-loader -y"
+    - name: Install Vivaldi browser
+      run: | 
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget -q https://downloads.vivaldi.com/stable/vivaldi-stable_7.5.3735.58-1_arm64.deb && dpkg -i vivladi*.deb && apt install -f -y && rm vivaldi*.deb"
+    - name: Unmount and repacking rootfs
+      run: |
+        sudo umount $GITHUB_WORKSPACE/portadesx-2404/proc
+        sudo umount $GITHUB_WORKSPACE/portadesx-2404/sys
+        sudo umount $GITHUB_WORKSPACE/portadesx-2404/run
+        sudo umount $GITHUB_WORKSPACE/portadesx-2404/dev
+        sudo umount $GITHUB_WORKSPACE/portadesx-2404/dev/pts
+        sudo tar -cJf $GITHUB_WORKSPACE/portadesk-2404.tar.xz $GITHUB_WORKSPACE/portadesx-2404
+
         
         
-      
-        
+  
