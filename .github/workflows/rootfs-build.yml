@@ -22,4 +22,7 @@ jobs:
         mv ubuntu-noble-aarch64 portadesq-2404
     - name: chroot and install depedency
       run: |
+        sudo mount --bind /proc $GITHUB_WORKSPACE/portadesq-2404/proc
+        sudo mount --bind /sys $GITHUB_WORKSPACE/portadesq-2404/sys
+        sudo mount --bind /dev $GITHUB_WORKSPACE/portadesq-2404/dev
         sudo chroot $GITHUB_WORKSPACE/portadesq-2404 /bin/bash -c "apt update && apt upgrade -y"
