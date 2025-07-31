@@ -28,6 +28,7 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y"
     - name: Install XFCE desktop and basic utility
       run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt install xfce4 xfce4-terminal tigervnc-standalone-server dbus-x11 pulseaudio nano wget curl sudo adduser"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt install xfce4 xfce4-terminal tigervnc-standalone-server dbus-x11 pulseaudio nano wget curl sudo adduser -y && apt clean"
+        
       
         
