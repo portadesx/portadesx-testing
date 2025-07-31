@@ -18,7 +18,7 @@ jobs:
     - name: Download rootfs and unpack
       run: |
         wget -q https://github.com/termux/proot-distro/releases/download/v4.18.0/ubuntu-noble-aarch64-pd-v4.18.0.tar.xz -P $GITHUB_WORKSPACE/
-        tar -xJf ubuntu-noble-aarch64-pd-v4.18.0.tar.xz
+        sudo tar -xJf ubuntu-noble-aarch64-pd-v4.18.0.tar.xz
         mv ubuntu-noble-aarch64 portadesq-2404
     - name: chroot and install depedency
       run: |
