@@ -36,10 +36,6 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo adduser --disabled-password --gecos "" portadesx && echo 'portadesx:123' | chpasswd && echo 'portadesx ALL=(ALL:ALL) ALL' >> /etc/sudoers.d/user"
     - name: Remove snap apt override
       run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo add-apt-repository --remove ppa:mozillateam/firefox-next"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo add-apt-repository --remove ppa:mozillateam/thunderbird-next"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo rm /etc/apt/preferences.d/pin-mozilla-ppa"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo rm /etc/apt/preferences.d/pin-thunderbird-ppa"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://github.com/arfshl/no-snap-on-apt/raw/main/Noble/arm64/setup.sh && sh setup.sh && rm setup.sh"
     - name: Install user apps
       run: | 
