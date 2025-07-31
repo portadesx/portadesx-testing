@@ -56,7 +56,7 @@ jobs:
         sudo umount $GITHUB_WORKSPACE/portadesx-2404/dev/pts
         sudo tar -cJf $GITHUB_WORKSPACE/release/portadesk-2404.tar.xz $GITHUB_WORKSPACE/portadesx-2404
     - name: Release it!
-      uses: comnoco/create-release@v2
+      uses: softprops/action-gh-release@v2
       with:
           tag_name: v24.04
           release_name: Initial beta release
