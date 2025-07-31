@@ -26,7 +26,7 @@ jobs:
         sudo mount --bind /sys $GITHUB_WORKSPACE/portadesx-2404/sys
         sudo mount --bind /dev $GITHUB_WORKSPACE/portadesx-2404/dev
         sudo mount --bind /dev/pts $GITHUB_WORKSPACE/portadesx-2404/dev/pts
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash
         apt update
 #        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y"
 #    - name: Install XFCE desktop and basic utility
