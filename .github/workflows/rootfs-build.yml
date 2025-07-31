@@ -52,6 +52,7 @@ jobs:
         sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/sys
         sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/run
         sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/dev
+        mkdir $GITHUB_WORKSPACE/release
         sudo tar -cJf $GITHUB_WORKSPACE/release/portadesk-2404.tar.xz $GITHUB_WORKSPACE/portadesx-2404
     - name: Release it!
       uses: softprops/action-gh-release@v2
