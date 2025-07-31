@@ -33,7 +33,7 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser -y && apt clean"
     - name: Adding user and password
       run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo adduser --disabled-password --gecos "PortadesX" portadesx && echo 'portadesx:123' | chpasswd && echo 'portadesx ALL=(ALL:ALL) ALL' >> /etc/sudoers.d/user"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo adduser --disabled-password --gecos "" portadesx && echo 'portadesx:123' | chpasswd && echo 'portadesx ALL=(ALL:ALL) ALL' >> /etc/sudoers.d/user"
     - name: Remove snap apt override
       run: |
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo add-apt-repository --remove ppa:mozillateam/firefox-next"
