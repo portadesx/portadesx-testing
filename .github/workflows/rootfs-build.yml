@@ -58,12 +58,12 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
           tag_name: v24.04
-          release_name: Initial beta release
+          name: Initial beta release
           body: |
             Based on Ubuntu 24.04 LTS
           draft: false
           prerelease: yes
-          files: $GITHUB_WORKSPACE/release/portadesk-2404.tar.xz
+          files: /release/portadesk-2404.tar.xz
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
