@@ -44,6 +44,9 @@ jobs:
     - name: Install Vivaldi browser
       run: | 
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget -q https://downloads.vivaldi.com/stable/vivaldi-stable_7.5.3735.58-1_arm64.deb && dpkg -i vivladi*.deb && apt install -f -y && rm vivaldi*.deb"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|/usr/bin/vivaldi --incognito %U|/usr/bin/vivaldi --incognito --no-sandbox %U|' /usr/share/applications/vivaldi-stable.desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|/usr/bin/vivaldi %U|/usr/bin/vivaldi --no-sandbox %U|' /usr/share/applications/vivaldi-stable.desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|/usr/bin/vivaldi --new-window %U|/usr/bin/vivaldi --new-window --no-sandbox %U|' /usr/share/applications/vivaldi-stable.desktop"
     - name: Unmount and repacking rootfs
       run: |
         sudo umount $GITHUB_WORKSPACE/portadesx-2404/proc
@@ -51,7 +54,19 @@ jobs:
         sudo umount $GITHUB_WORKSPACE/portadesx-2404/run
         sudo umount $GITHUB_WORKSPACE/portadesx-2404/dev
         sudo umount $GITHUB_WORKSPACE/portadesx-2404/dev/pts
-        sudo tar -cJf $GITHUB_WORKSPACE/portadesk-2404.tar.xz $GITHUB_WORKSPACE/portadesx-2404
+        sudo tar -cJf $GITHUB_WORKSPACE/release/portadesk-2404.tar.xz $GITHUB_WORKSPACE/portadesx-2404
+    - name: Release it!
+      uses: comnoco/create-release@v2
+      with:
+          tag_name: v24.04
+          release_name: Initial beta release
+          body: |
+            Based on Ubuntu 24.04 LTS
+          draft: false
+          prerelease: yes
+          files: $GITHUB_WORKSPACE/release/portadesk-2404.tar.xz
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         
         
