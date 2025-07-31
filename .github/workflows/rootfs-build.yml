@@ -63,7 +63,7 @@ jobs:
             Based on Ubuntu 24.04 LTS
           draft: false
           prerelease: yes
-          files: /release/portadesk-2404.tar.xz
+          files: release/portadesk-2404.tar.xz
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
