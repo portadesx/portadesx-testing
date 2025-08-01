@@ -10,7 +10,8 @@ chmod 600 ~/.vnc/passwd
 echo '#!/bin/sh
 xrdb $HOME/.Xresources
 export PULSE_SERVER=127.0.0.1
-DISPLAY=:0 GALLIUM_DRIVER=virpipe startxfce4' >> ~/.vnc/xstartup
+export DISPLAY=:3
+startxfce4' >> ~/.vnc/xstartup
 
 # Create script for starting VNC server
 echo '#!/bin/sh
