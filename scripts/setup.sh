@@ -8,7 +8,7 @@ apt update
 apt upgrade -y -o Dpkg::Options::="--force-confold"
 
 # Install depedency
-apt install curl wget nano proot-distro termux-x11 pulseaudio vulkan-loader-android mesa-zink virglrenderer-mesa-zink /data/data/com.termux/files/usr/bin/portadesx-x11
+apt install curl wget nano proot-distro termux-x11 pulseaudio vulkan-loader-android mesa-zink virglrenderer-mesa-zink -y
 
 # Create manual proot-distro configuration
 cat <<EOF > $PREFIX/etc/proot-distro/portadesx.sh
