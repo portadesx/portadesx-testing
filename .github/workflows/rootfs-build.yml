@@ -70,7 +70,7 @@ jobs:
     - name: Release it!
       uses: softprops/action-gh-release@v2
       with:
-          tag_name: v24.04
+          tag_name: v24.04-${{ env.TIMESTAMP }}-beta
           name: Testing Release 24.04 ${{ env.TIMESTAMP }}
           body: |
             Based on Ubuntu 24.04 LTS
