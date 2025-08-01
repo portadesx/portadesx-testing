@@ -17,6 +17,9 @@ TARBALL_URL['aarch64']="https://github.com/arfshl/portadesx-testing/releases/dow
 TARBALL_SHA256['aarch64']="7846ed3931d5c1ecb52726aced5706ef1415ff14102f6ce2541f12cdf7cf02c4"
 
 # Create startup script
+# for CLI session
+printf 'proot-distro login portadesx --user portadesx'
+
 # for X11 session
 cat <<EOF > /data/data/com.termux/files/usr/bin/portadesx-x11
 #!/bin/sh
