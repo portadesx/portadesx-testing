@@ -43,7 +43,7 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://github.com/arfshl/no-snap-on-apt/raw/main/Noble/arm64/setup.sh && sh setup.sh && rm setup.sh"
     - name: Install user apps
       run: | 
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install chromium firefox vlc thunderbird evince file-roller ristretto gnome-clocks gnome-calculator libheif1 webp-pixbuf-loader fonts-liberation -y"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install chromium firefox vlc thunderbird evince file-roller eog gnome-clocks gnome-calculator libheif1 webp-pixbuf-loader fonts-liberation -y"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium --incognito %U|chromium --incognito --no-sandbox %U|' /usr/share/applications/chromium.desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium %U|chromium --no-sandbox %U|' /usr/share/applications/chromium.desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium --new-window %U|chromium --new-window --no-sandbox %U|' /usr/share/applications/chromium.desktop"
@@ -51,7 +51,6 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/chromium.desktop /home/portadesx/Desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/vlc.desktop /home/portadesx/Desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/thunderbird.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/ristretto.desktop /home/portadesx/Desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.Evince.desktop /home/portadesx/Desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.Calculator.desktop /home/portadesx/Desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.eog.desktop /home/portadesx/Desktop"
