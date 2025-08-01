@@ -67,6 +67,7 @@ jobs:
         mkdir $GITHUB_WORKSPACE/release
         sudo tar -cJf $GITHUB_WORKSPACE/release/portadesk-2404.tar.xz $GITHUB_WORKSPACE/portadesx-2404
         echo "TIMESTAMP=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+        echo "SHA256=$(sha256sum $GITHUB_WORKSPACE/release/portadesk-2404.tar.xz | cut -d ' ' -f 1)" >> $GITHUB_ENV
     - name: Release it!
       uses: softprops/action-gh-release@v2
       with:
@@ -75,6 +76,7 @@ jobs:
           body: |
             Based on Ubuntu 24.04 LTS
             Generated on ${{ env.TIMESTAMP }}
+            SHA-256: `${{ env.SHA256 }}`
           draft: false
           prerelease: yes
           make_latest: false
