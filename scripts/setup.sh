@@ -38,15 +38,12 @@ cat <<EOF > /data/data/com.termux/files/usr/bin/portadesx-startvnc
 #!/bin/sh
 LD_PRELOAD=/system/lib64/libskcodec.so
 pulseaudio --start --load="module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1"
-kill -9 \$(pgrep -f "virgl")\ 2>/dev/null
-virgl_test_server_android &
 proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - portadesx -c "startvnc"'
 EOF
 
 # for VNC session (stop server)
 cat <<EOF > /data/data/com.termux/files/usr/bin/portadesx-stopvnc
 #!/bin/sh
-kill -9 \$(pgrep -f "virgl")\ 2>/dev/null
 proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - portadesx -c "stopvnc"'
 EOF
 
@@ -54,8 +51,6 @@ EOF
 cat <<EOF > /data/data/com.termux/files/usr/bin/portadesx-restartvnc
 #!/bin/sh
 LD_PRELOAD=/system/lib64/libskcodec.so
-kill -9 \$(pgrep -f "virgl")\ 2>/dev/null
-virgl_test_server_android &
 proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - portadesx -c "restartvnc"'
 EOF
 
