@@ -36,8 +36,8 @@ vncstart' >> /usr/local/bin/restartvnc
 
 # Make it executable
 cd /usr/local/bin
-chmod +x vncstart
-chmod +x vncstop
-chmod +x vncrestart
+chmod +x startvnc
+chmod +x stopvnc
+chmod +x restartvnc
 cd
 chmod +x ~/.vnc/xstartup
