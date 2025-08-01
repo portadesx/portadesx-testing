@@ -18,7 +18,7 @@ TARBALL_SHA256['aarch64']="7846ed3931d5c1ecb52726aced5706ef1415ff14102f6ce2541f1
 
 # Create startup script
 # for CLI session
-printf 'proot-distro login portadesx --user portadesx'
+printf 'proot-distro login portadesx --user portadesx' >> /data/data/com.termux/files/usr/bin/portadesx-cli
 
 # for X11 session
 cat <<EOF > /data/data/com.termux/files/usr/bin/portadesx-x11
@@ -64,6 +64,7 @@ chmod +x /data/data/com.termux/files/usr/bin/portadesx-restartvnc
 chmod +x /data/data/com.termux/files/usr/bin/portadesx-startvnc
 chmod +x /data/data/com.termux/files/usr/bin/portadesx-stopvnc
 chmod +x /data/data/com.termux/files/usr/bin/portadesx-x11
+chmod +x /data/data/com.termux/files/usr/bin/portadesx-cli
 
 
 
