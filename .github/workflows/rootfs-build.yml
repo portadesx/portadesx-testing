@@ -15,22 +15,23 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Download rootfs and unpack
+    - name: Download rootfs
       run: |
         wget -q https://github.com/termux/proot-distro/releases/download/v4.18.0/ubuntu-noble-aarch64-pd-v4.18.0.tar.xz -P $GITHUB_WORKSPACE/
+    - name: Decompress rootfs
+      run: |
         sudo tar -xJf ubuntu-noble-aarch64-pd-v4.18.0.tar.xz
         mv ubuntu-noble-aarch64 portadesx-2404
-    - name: chroot and update installed rootfs package
+    - name: Mount important filesystem
       run: |
         sudo mount --bind /proc $GITHUB_WORKSPACE/portadesx-2404/proc
         sudo mount --bind /sys $GITHUB_WORKSPACE/portadesx-2404/sys
         sudo mount --bind /run $GITHUB_WORKSPACE/portadesx-2404/run
         sudo mount --bind /dev $GITHUB_WORKSPACE/portadesx-2404/dev
         sudo mount --bind /dev/pts $GITHUB_WORKSPACE/portadesx-2404/dev/pts
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y"
     - name: Install XFCE desktop and basic utility
       run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser -y && apt clean"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y && apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser tigervnc-standalone-server -y && apt clean"
     - name: Adding user and password
       run: |
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo adduser --disabled-password --gecos "portadesx" portadesx && echo 'portadesx:123' | chpasswd && echo 'portadesx ALL=(ALL:ALL) ALL' >> /etc/sudoers.d/user"
@@ -39,21 +40,31 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://github.com/arfshl/no-snap-on-apt/raw/main/Noble/arm64/setup.sh && sh setup.sh && rm setup.sh"
     - name: Install user apps
       run: | 
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install chromium firefox vlc thunderbird evince file-roller ristretto gnome-clocks libheif1 webp-pixbuf-loader fonts-liberation -y"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install chromium firefox vlc thunderbird evince file-roller ristretto gnome-clocks gnome-calculator libheif1 webp-pixbuf-loader fonts-liberation -y"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium --incognito %U|chromium --incognito --no-sandbox %U|' /usr/share/applications/chromium.desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium %U|chromium --no-sandbox %U|' /usr/share/applications/chromium.desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium --new-window %U|chromium --new-window --no-sandbox %U|' /usr/share/applications/chromium.desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/firefox.desktop /home/portadesx/Desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/chromium.desktop /home/portadesx/Desktop"
-    - name: Unmount, repacking rootfs, set timestamp
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/vlc.desktop /home/portadesx/Desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/thunderbird.desktop /home/portadesx/Desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/ristretto.desktop /home/portadesx/Desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.Evince.desktop /home/portadesx/Desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.Calculator.desktop /home/portadesx/Desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.eog.desktop /home/portadesx/Desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.clocks.desktop /home/portadesx/Desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.FileRoller.desktop /home/portadesx/Desktop"
+    - name: Unmount important filesystem
       run: |
         sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/proc
         sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/sys
         sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/run
         sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/dev
+    - name: Compress rootfs
+      run: |
         mkdir $GITHUB_WORKSPACE/release
         sudo tar -cJf $GITHUB_WORKSPACE/release/portadesk-2404.tar.xz $GITHUB_WORKSPACE/portadesx-2404
         echo "TIMESTAMP=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-
     - name: Release it!
       uses: softprops/action-gh-release@v2
       with:
