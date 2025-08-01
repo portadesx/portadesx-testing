@@ -1,6 +1,10 @@
 #!/bin/sh
 # Create VNC configuration directory
-mkdir ~/.vnc
+mkdir -p ~/.vnc
+
+# Create VNC password file (default 1234567890)
+printf "1234567890" | vncpasswd -f > ~/.vnc/passwd
+chmod 600 ~/.vnc/passwd
 
 # Create VNC startup script
 echo '#!/bin/sh
