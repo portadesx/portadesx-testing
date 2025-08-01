@@ -27,7 +27,7 @@ kill -9 $(pgrep -f "termux.x11") 2>/dev/null
 kill -9 $(pgrep -f "virgl") 2>/dev/null
 virgl_test_server_android &
 termux-x11 :0 >/dev/null &
-proot-distro login portadesx --shared-tmp -- /bin/sh -c 'export PULSE_SERVER=127.0.0.1 && export XDG_RUNTIME_DIR=${TMPDIR} && su - alif -c "DISPLAY=:0 GALLIUM_DRIVER=virpipe startxfce4"'
+proot-distro login portadesx --shared-tmp -- /bin/sh -c 'export PULSE_SERVER=127.0.0.1 && export XDG_RUNTIME_DIR=${TMPDIR} && su - portadesx -c "DISPLAY=:0 GALLIUM_DRIVER=virpipe startxfce4"'
 EOF
 
 # for VNC session (start server)
@@ -37,14 +37,14 @@ LD_PRELOAD=/system/lib64/libskcodec.so
 pulseaudio --start --load="module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1"
 kill -9 $(pgrep -f "virgl") 2>/dev/null
 virgl_test_server_android &
-proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - alif -c "startvnc"'
+proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - portadesx -c "startvnc"'
 EOF
 
 # for VNC session (stop server)
 cat <<EOF > /data/data/com.termux/files/usr/bin/portadesx-stopvnc
 #!/bin/sh
 kill -9 $(pgrep -f "virgl") 2>/dev/null
-proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - alif -c "stopvnc"'
+proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - portadesx -c "stopvnc"'
 EOF
 
 # for VNC session (restart server)
@@ -53,7 +53,7 @@ cat <<EOF > /data/data/com.termux/files/usr/bin/portadesx-restartvnc
 LD_PRELOAD=/system/lib64/libskcodec.so
 kill -9 $(pgrep -f "virgl") 2>/dev/null
 virgl_test_server_android &
-proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - alif -c "restartvnc"'
+proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - portadesx -c "restartvnc"'
 EOF
 
 # Make all of them executable
