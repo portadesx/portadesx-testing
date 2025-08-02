@@ -33,31 +33,7 @@ termux-x11 :0 >/dev/null &
 proot-distro login portadesx --shared-tmp -- /bin/sh -c 'export PULSE_SERVER=127.0.0.1 && export XDG_RUNTIME_DIR=${TMPDIR} && su - portadesx -c "DISPLAY=:0 GALLIUM_DRIVER=virpipe startxfce4"'
 EOF
 
-# for VNC session (start server)
-cat <<EOF > /data/data/com.termux/files/usr/bin/portadesx-startvnc
-#!/bin/sh
-LD_PRELOAD=/system/lib64/libskcodec.so
-pulseaudio --start --load="module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1"
-proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - portadesx -c "startvnc"'
-EOF
-
-# for VNC session (stop server)
-cat <<EOF > /data/data/com.termux/files/usr/bin/portadesx-stopvnc
-#!/bin/sh
-proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - portadesx -c "stopvnc"'
-EOF
-
-# for VNC session (restart server)
-cat <<EOF > /data/data/com.termux/files/usr/bin/portadesx-restartvnc
-#!/bin/sh
-LD_PRELOAD=/system/lib64/libskcodec.so
-proot-distro login portadesx --shared-tmp -- /bin/sh -c 'su - portadesx -c "restartvnc"'
-EOF
-
 # Make all of them executable
-chmod +x /data/data/com.termux/files/usr/bin/portadesx-restartvnc
-chmod +x /data/data/com.termux/files/usr/bin/portadesx-startvnc
-chmod +x /data/data/com.termux/files/usr/bin/portadesx-stopvnc
 chmod +x /data/data/com.termux/files/usr/bin/portadesx-x11
 chmod +x /data/data/com.termux/files/usr/bin/portadesx-cli
 
