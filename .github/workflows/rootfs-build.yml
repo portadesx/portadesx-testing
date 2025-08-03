@@ -48,15 +48,14 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium %U|chromium --no-sandbox %U|' /usr/share/applications/chromium.desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium --new-window %U|chromium --new-window --no-sandbox %U|' /usr/share/applications/chromium.desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo rm /etc/chromium/master_preferences"
-sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "mkdir -p /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/firefox.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/chromium.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/vlc.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/thunderbird.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.Evince.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/galculator.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.eog.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/xarchiver.desktop /home/portadesx/Desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/firefox.desktop /home/portadesx/"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/chromium.desktop /home/portadesx/"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/vlc.desktop /home/portadesx/"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/thunderbird.desktop /home/portadesx/"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.Evince.desktop /home/portadesx/"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/galculator.desktop /home/portadesx/"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.eog.desktop /home/portadesx/"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/xarchiver.desktop /home/portadesx/"
     - name: Unmount important filesystem
       run: |
         sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/proc
