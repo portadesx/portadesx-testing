@@ -1,5 +1,6 @@
 #!/bin/sh
 # Install x11 and tur repo
+termux-setup-storage
 apt update
 apt install x11-repo tur-repo
 apt update
@@ -15,6 +16,11 @@ cat <<EOF > $PREFIX/etc/proot-distro/portadesx.sh
 DISTRO_NAME="PortadesX-Testing"
 TARBALL_URL['aarch64']="https://github.com/arfshl/portadesx-testing/releases/download/v24.04-202508010829-beta/portadesk-2404.tar.xz"
 TARBALL_SHA256['aarch64']="7846ed3931d5c1ecb52726aced5706ef1415ff14102f6ce2541f12cdf7cf02c4"
+distro_setup() {
+        run_proot_cmd mkdir /home/portadesx/android_files
+        run_proot_cmd ln -s /storage/emulated/0/ /home/portadesx/android_files
+}
+EOF
 
 # Create startup script
 # for CLI session
