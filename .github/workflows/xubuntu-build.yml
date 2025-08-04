@@ -29,12 +29,15 @@ jobs:
         sudo mount --bind /run $GITHUB_WORKSPACE/portadesx-2404/run
         sudo mount --bind /dev $GITHUB_WORKSPACE/portadesx-2404/dev
         sudo mount --bind /dev/pts $GITHUB_WORKSPACE/portadesx-2404/dev/pts
-    - name: Executing externscript
+    - name: Remove snap override on apt
       run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install wget sudo && wget https://raw.githubusercontent.com/arfshl/portadesx-testing/refs/heads/main/scripts/externscript.sh && sh externscript.sh && rm externscript.sh"
-    - name: Install XFCE desktop and basic utility
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install wget sudo && wget https://raw.githubusercontent.com/arfshl/no-snap-on-apt/refs/heads/main/Noble/arm64/setup.sh && sh setup.sh && rm setup.sh"
+    - name: Install XFCE desktop, VNC, and basic utility
       run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y && apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser tigervnc-standalone-server xfce4-whiskermenu-plugin xubuntu-artwork xubuntu-default-settings xubuntu-wallpapers pavucontrol tigervnc-tools --no-install-recommends   -y && apt clean"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y && apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser tigervnc-standalone-server xfce4-whiskermenu-plugin xubuntu-artwork xubuntu-default-settings xubuntu-wallpapers pavucontrol tigervnc-tools --no-install-recommends -y && apt clean"
+    - name: Setting up VNC Script
+      run: | 
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://raw.githubusercontent.com/arfshl/portadesx-testing/refs/heads/main/scripts/vncsetup.sh && sh vncsetup.sh && rm vncsetup.sh"
     - name: Adding user and password
       run: |
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo adduser --disabled-password --gecos "portadesx" portadesx && echo 'portadesx:123' | chpasswd && echo 'portadesx ALL=(ALL:ALL) ALL' >> /etc/sudoers.d/user"
