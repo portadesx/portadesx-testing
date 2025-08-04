@@ -1,4 +1,4 @@
-name: rootfs build
+name: rootfs-build
 
 on:
   workflow_dispatch:
@@ -29,21 +29,21 @@ jobs:
         sudo mount --bind /run $GITHUB_WORKSPACE/portadesx-2404/run
         sudo mount --bind /dev $GITHUB_WORKSPACE/portadesx-2404/dev
         sudo mount --bind /dev/pts $GITHUB_WORKSPACE/portadesx-2404/dev/pts
-    - name: Install XFCE desktop and basic utility
+    - name: Remove snap override on apt
       run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y && apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser tigervnc-standalone-server -y && apt clean"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install wget sudo && wget https://raw.githubusercontent.com/arfshl/no-snap-on-apt/refs/heads/main/Noble/arm64/setup.sh && sh setup.sh && rm setup.sh"
+    - name: Install XFCE desktop, VNC, and basic utility
+      run: |
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y && apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser tigervnc-standalone-server xfce4-whiskermenu-plugin xubuntu-artwork xubuntu-default-settings xubuntu-wallpapers pavucontrol tigervnc-tools --no-install-recommends -y && apt clean"
+    - name: Setting up VNC Script
+      run: | 
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://raw.githubusercontent.com/arfshl/portadesx-testing/refs/heads/main/scripts/vncsetup.sh && sh vncsetup.sh && rm vncsetup.sh"
     - name: Adding user and password
       run: |
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo adduser --disabled-password --gecos "portadesx" portadesx && echo 'portadesx:123' | chpasswd && echo 'portadesx ALL=(ALL:ALL) ALL' >> /etc/sudoers.d/user"
-    - name : Setup VNC scripts
-      run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://github.com/arfshl/portadesx-testing/raw/main/scripts/setupvnc.sh && sh setupvnc.sh && rm setupvnc.sh"
-    - name: Remove snap apt override
-      run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://github.com/arfshl/no-snap-on-apt/raw/main/Noble/arm64/setup.sh && sh setup.sh && rm setup.sh"
     - name: Install user apps
       run: | 
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install chromium firefox vlc thunderbird evince eog galculator libheif1 xarchiver webp-pixbuf-loader fonts-liberation p7zip -y"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install chromium firefox vlc thunderbird evince ristretto galculator libheif1 xarchiver webp-pixbuf-loader fonts-liberation p7zip -y"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium --incognito %U|chromium --incognito --no-sandbox %U|' /usr/share/applications/chromium.desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium %U|chromium --no-sandbox %U|' /usr/share/applications/chromium.desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium --new-window %U|chromium --new-window --no-sandbox %U|' /usr/share/applications/chromium.desktop"
@@ -54,7 +54,7 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/thunderbird.desktop /home/portadesx/"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.Evince.desktop /home/portadesx/"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/galculator.desktop /home/portadesx/"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.eog.desktop /home/portadesx/"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.xfce.ristretto.desktop /home/portadesx/"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/xarchiver.desktop /home/portadesx/"
     - name: Unmount important filesystem
       run: |
@@ -66,22 +66,22 @@ jobs:
       run: |
         mkdir $GITHUB_WORKSPACE/release
         cd $GITHUB_WORKSPACE
-        sudo tar -cJf $GITHUB_WORKSPACE/release/portadesx-2404-xubuntu.tar.xz portadesx-2404
+        sudo tar -cJf $GITHUB_WORKSPACE/release/portadesx-2404.tar.xz portadesx-2404
         echo "TIMESTAMP=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-        echo "SHA256=$(sha256sum $GITHUB_WORKSPACE/release/portadesx-2404-xubuntu.tar.xz | cut -d ' ' -f 1)" >> $GITHUB_ENV
+        echo "SHA256=$(sha256sum $GITHUB_WORKSPACE/release/portadesx-2404.tar.xz | cut -d ' ' -f 1)" >> $GITHUB_ENV
     - name: Release it!
       uses: softprops/action-gh-release@v2
       with:
-          tag_name: v24.04-${{ env.TIMESTAMP }}-beta
-          name: Testing Release 24.04 ${{ env.TIMESTAMP }}
+          tag_name: 24.04-${{ env.TIMESTAMP }}-beta
+          name: Testing Release ${{ env.TIMESTAMP }}
           body: |
-            Based on Ubuntu 24.04 LTS
+            Based on Xubuntu 24.04 LTS
             Generated on ${{ env.TIMESTAMP }}
             SHA-256: `${{ env.SHA256 }}`
           draft: false
           prerelease: yes
           make_latest: false
-          files: release/portadesx-2404-xubuntu.tar.xz
+          files: release/portadesx-2404.tar.xz
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
