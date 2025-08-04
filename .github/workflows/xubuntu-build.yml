@@ -1,4 +1,4 @@
-name: rootfs build
+name: xubuntu-build
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ permissions:
 
 jobs:
 
-  rootfs-build:
+  xubuntu-build:
   
     runs-on: ubuntu-24.04-arm
 
