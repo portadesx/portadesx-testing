@@ -29,6 +29,9 @@ jobs:
         sudo mount --bind /run $GITHUB_WORKSPACE/portadesx-2404/run
         sudo mount --bind /dev $GITHUB_WORKSPACE/portadesx-2404/dev
         sudo mount --bind /dev/pts $GITHUB_WORKSPACE/portadesx-2404/dev/pts
+    - name: Remove snap apt override
+      run: |
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install wget sudo && wget https://github.com/arfshl/no-snap-on-apt/raw/main/Noble/arm64/setup.sh && sh setup.sh && rm setup.sh"
     - name: Install XFCE desktop and basic utility
       run: |
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y && apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser tigervnc-standalone-server xfce4-whiskermenu-plugin xubuntu-artwork xubuntu-default-settings xubuntu-wallpapers pavucontrol tigervnc-tools --no-install-recommends   -y && apt clean"
@@ -38,9 +41,6 @@ jobs:
     - name : Setup VNC scripts
       run: |
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://github.com/arfshl/portadesx-testing/raw/main/scripts/setupvnc.sh && sh setupvnc.sh && rm setupvnc.sh"
-    - name: Remove snap apt override
-      run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://github.com/arfshl/no-snap-on-apt/raw/main/Noble/arm64/setup.sh && sh setup.sh && rm setup.sh"
     - name: Install user apps
       run: | 
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install chromium firefox vlc thunderbird evince ristretto galculator libheif1 xarchiver webp-pixbuf-loader fonts-liberation p7zip -y"
