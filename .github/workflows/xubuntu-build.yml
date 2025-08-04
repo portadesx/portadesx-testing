@@ -72,8 +72,8 @@ jobs:
     - name: Release it!
       uses: softprops/action-gh-release@v2
       with:
-          tag_name: v24.04-${{ env.TIMESTAMP }}-beta
-          name: Testing Release 24.04 ${{ env.TIMESTAMP }}
+          tag_name: vxubuntu-24.04-${{ env.TIMESTAMP }}-beta
+          name: Testing Release ${{ env.TIMESTAMP }}
           body: |
             Based on Xubuntu 24.04 LTS
             Generated on ${{ env.TIMESTAMP }}
