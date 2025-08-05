@@ -17,7 +17,6 @@ DISTRO_NAME="PortadesX"
 TARBALL_URL['aarch64']="https://github.com/arfshl/portadesx-testing/releases/download/v24.04-202508020443-beta/portadesk-2404.tar.xz"
 TARBALL_SHA256['aarch64']="bf25ffb45a609e35b192ae24621049310a43d521777311339211245687e3ff2b"
 distro_setup() {
-        run_proot_cmd mkdir /home/portadesx/android_files
         run_proot_cmd ln -s /storage/emulated/0/ /home/portadesx/android_files
 }
 EOF
