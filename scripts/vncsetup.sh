@@ -26,7 +26,7 @@ echo '#!/bin/sh
 export USER=portadesx
 export HOME=/home/portadesx
 vncserver -kill :3
-rm -rf /root/.vnc/localhost:3.pid
+rm -rf /home/portadesx/.vnc/localhost:3.pid
 rm -rf /tmp/.X1-lock
 rm -rf /tmp/.X11-unix/X1' >> /usr/local/bin/stopvnc
 
