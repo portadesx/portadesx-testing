@@ -34,7 +34,7 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install wget sudo && wget https://raw.githubusercontent.com/arfshl/no-snap-on-apt/refs/heads/main/Noble/arm64/setup.sh && sh setup.sh && rm setup.sh"
     - name: Install XFCE desktop, VNC, and basic utility
       run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y && apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser tigervnc-standalone-server xfce4-whiskermenu-plugin xubuntu-default-settings -y && apt clean"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y && apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser tigervnc-standalone-server -y && apt clean"
     - name: Setting up VNC Script
       run: | 
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://raw.githubusercontent.com/arfshl/portadesx-testing/refs/heads/main/scripts/vncsetup.sh && sh vncsetup.sh && rm vncsetup.sh"
@@ -48,14 +48,14 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium %U|chromium --no-sandbox %U|' /usr/share/applications/chromium.desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium --new-window %U|chromium --new-window --no-sandbox %U|' /usr/share/applications/chromium.desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo rm /etc/chromium/master_preferences"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/firefox.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/chromium.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/vlc.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/thunderbird.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.gnome.Evince.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/galculator.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/org.xfce.ristretto.desktop /home/portadesx/Desktop"
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "cp /usr/share/applications/xarchiver.desktop /home/portadesx/Desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "ln -s /usr/share/applications/firefox.desktop /home/portadesx/firefox.desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "ln -s /usr/share/applications/chromium.desktop /home/portadesx/chromium.desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "ln-s /usr/share/applications/vlc.desktop /home/portadesx/vlc.desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "ln -s /usr/share/applications/thunderbird.desktop /home/portadesx/thunderbird.desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "ln -s /usr/share/applications/org.gnome.Evince.desktop /home/portadesx/org.gnome.Evince.desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "ln -s /usr/share/applications/galculator.desktop /home/portadesx/galculator.desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "ln -s /usr/share/applications/org.xfce.ristretto.desktop /home/portadesx/org.xfce.ristretto.desktop"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "ln -s /usr/share/applications/xarchiver.desktop /home/portadesx/xarchiver.desktop"
     - name: Unmount important filesystem
       run: |
         sudo umount -l $GITHUB_WORKSPACE/portadesx-2404/proc
