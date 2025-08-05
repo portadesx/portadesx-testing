@@ -1,18 +1,18 @@
 #!/bin/sh
 
 # Create VNC configuration directory
-mkdir -p ~/.vnc
+mkdir -p /home/portadesx/.vnc
 
 # Create VNC password file (default 1234567890)
-printf "1234567890" | vncpasswd -f > ~/.vnc/passwd
-chmod 600 ~/.vnc/passwd
+printf "1234567890" | vncpasswd -f > /home/portadesx/.vnc/passwd
+chmod 600 /home/portadesx/.vnc/passwd
 
 # Create VNC startup script
 echo '#!/bin/sh
 xrdb $HOME/.Xresources
 export PULSE_SERVER=127.0.0.1
 export DISPLAY=:3
-startxfce4' >> ~/.vnc/xstartup
+startxfce4' >> /home/portadesx/.vnc/xstartup
 
 # Create script for starting VNC server
 echo '#!/bin/sh
@@ -41,4 +41,4 @@ chmod +x startvnc
 chmod +x stopvnc
 chmod +x restartvnc
 cd
-chmod +x ~/.vnc/xstartup
+chmod +x /home/portadesx/.vnc/xstartup
