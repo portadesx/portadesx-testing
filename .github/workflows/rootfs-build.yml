@@ -75,7 +75,7 @@ jobs:
           tag_name: 24.04-${{ env.TIMESTAMP }}-beta
           name: Testing Release ${{ env.TIMESTAMP }}
           body: |
-            Based on Xubuntu 24.04 LTS
+            Based on Ubuntu 24.04 LTS
             Generated on ${{ env.TIMESTAMP }}
             SHA-256: `${{ env.SHA256 }}`
           draft: false
