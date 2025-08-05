@@ -34,7 +34,7 @@ jobs:
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install wget sudo && wget https://raw.githubusercontent.com/arfshl/no-snap-on-apt/refs/heads/main/Noble/arm64/setup.sh && sh setup.sh && rm setup.sh"
     - name: Install XFCE desktop, VNC, and basic utility
       run: |
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y && apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser tigervnc-standalone-server xfce4-whiskermenu-plugin xubuntu-artwork xubuntu-default-settings xubuntu-wallpapers pavucontrol tigervnc-tools --no-install-recommends -y && apt clean"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt upgrade -y && apt install xfce4 xfce4-terminal dbus-x11 pulseaudio nano wget curl sudo adduser tigervnc-standalone-server xfce4-whiskermenu-plugin xubuntu-default-settings -y && apt clean"
     - name: Setting up VNC Script
       run: | 
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "wget https://raw.githubusercontent.com/arfshl/portadesx-testing/refs/heads/main/scripts/vncsetup.sh && sh vncsetup.sh && rm vncsetup.sh"
