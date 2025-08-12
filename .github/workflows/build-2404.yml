@@ -52,7 +52,7 @@ jobs:
 
     - name: Install user apps
       run: | 
-        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install chromium firefox vlc thunderbird evince ristretto galculator libheif1 xarchiver webp-pixbuf-loader fonts-liberation p7zip mousepad -y"
+        sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "apt update && apt install chromium firefox-esr vlc thunderbird evince ristretto galculator libheif1 xarchiver webp-pixbuf-loader fonts-liberation p7zip mousepad -y"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "mkdir -p /home/portadesx/Desktop"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "mkdir -p /home/portadesx/.config/ && wget https://raw.githubusercontent.com/portadesx/portadesx/refs/heads/main/scripts/user-dirs.dirs -P /home/portadesx/.config/"
         sudo chroot $GITHUB_WORKSPACE/portadesx-2404 /bin/bash -c "sudo sed -i 's|chromium --incognito %U|chromium --incognito --no-sandbox %U|' /usr/share/applications/chromium.desktop"
